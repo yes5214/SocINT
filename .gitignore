@@ -1,0 +1,48 @@
+# Secrets
+.env
+.env.local
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+.venv/
+
+# Databases
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Runtime artifacts
+quarantine_storage/
+malware_samples/
+logs/
+*.log
+
+# YARA rule backups / broken files
+*.backup
+*.backup_*
+*.broken
+
+# IDE / editor / tooling
+.claude/
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Build artifacts
+build/
+dist/
+*.egg-info/

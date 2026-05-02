@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  discord-security-bot:
+    build: .
+    container_name: discord_security_bot
+    restart: unless-stopped
+    environment:
+      # Bot authentication
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+      - VT_API_KEY=${VT_API_KEY}
+
+      # File paths
+      - YARA_RULES_PATH=rules.yar
+      - CUSTOM_SIGNATURES_FILE=custom_signatures.json
+
+      # Detection thresholds (based on testing results)
+      # URL: threshold 25 = 90% accuracy (tested on 20 samples)
+      # File: threshold 15 recommended (lower to catch more malware)
+      - URL_DETECTION_THRESHOLD=${URL_DETECTION_THRESHOLD:-25}
+      - FILE_DETECTION_THRESHOLD=${FILE_DETECTION_THRESHOLD:-15}
+    volumes:
+      # Logs directory
+      - ./logs:/app/logs
+
+      # YARA rules (read-only - rebuild to update)
+      - ./rules.yar:/app/rules.yar:ro
+
+      # Signatures and whitelist (read-only - rebuild to update)
+      - ./custom_signatures.json:/app/custom_signatures.json:ro
+      - ./whitelist.json:/app/whitelist.json:ro
+
+      # Quarantine storage (persistent - encrypted files stored here)
+      - ./quarantine_storage:/app/quarantine_storage
+
+      # Quarantine database (persistent)
+      - ./quarantine.db:/app/quarantine.db
+
+      # Testing samples (optional - for validation in container)
+      - ./malware_samples:/app/malware_samples:ro
+    networks:
+      - security-net
+
+networks:
+  security-net:
+    driver: bridge

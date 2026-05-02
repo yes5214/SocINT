@@ -1,0 +1,927 @@
+{
+  "binary_patterns": {
+    "custom_malware_1": {
+      "pattern": "4D5A90000300000004000000FFFF",
+      "description": "Custom malware signature 1",
+      "severity": "high"
+    },
+    "meterpreter_stager": {
+      "pattern": "FCE8(?:82|89|8F|90)000000608B",
+      "description": "Metasploit Meterpreter stager pattern",
+      "severity": "critical"
+    },
+    "cobalt_strike_beacon": {
+      "pattern": "252525632525632525632525632525632525634D5353452D",
+      "description": "Cobalt Strike Beacon watermark",
+      "severity": "critical"
+    },
+    "wannacry_ransomware": {
+      "pattern": "6D73736563686B2E6578650066696C6532",
+      "description": "WannaCry ransomware signature",
+      "severity": "critical"
+    },
+    "emotet_loader": {
+      "pattern": "558BEC83EC??5356578365??00C745??",
+      "description": "Emotet malware loader pattern",
+      "severity": "critical"
+    },
+    "trickbot_module": {
+      "pattern": "41646D696E20506173737764",
+      "description": "TrickBot banking trojan",
+      "severity": "critical"
+    },
+    "qakbot_signature": {
+      "pattern": "E8000000005?8BEC83C4??5?5?6A",
+      "description": "QakBot trojan signature",
+      "severity": "critical"
+    },
+    "asyncrat_payload": {
+      "pattern": "41737963485241543A2F2F",
+      "description": "AsyncRAT remote access trojan",
+      "severity": "critical"
+    },
+    "njrat_marker": {
+      "pattern": "6E6A524154206279",
+      "description": "njRAT remote access trojan marker",
+      "severity": "critical"
+    },
+    "icedid_loader": {
+      "pattern": "496365644964",
+      "description": "IcedID banking trojan",
+      "severity": "critical"
+    }
+  },
+  "regex_patterns": {
+    "suspicious_script": {
+      "pattern": "eval\\(atob\\(['\"]",
+      "description": "Base64 eval in JavaScript",
+      "severity": "medium"
+    },
+    "powershell_downloader": {
+      "pattern": "(New-Object\\s+System\\.Net\\.WebClient|DownloadString|IEX|Invoke-Expression).*http",
+      "description": "PowerShell download and execute pattern",
+      "severity": "critical"
+    },
+    "powershell_encoded_command": {
+      "pattern": "powershell(.exe)?\\s+-[Ee]nc(odedCommand)?\\s+[A-Za-z0-9+/=]{50,}",
+      "description": "Encoded PowerShell command execution",
+      "severity": "high"
+    },
+    "base64_shellcode": {
+      "pattern": "[A-Za-z0-9+/]{500,}={0,2}",
+      "description": "Large base64 encoded data (possible shellcode)",
+      "severity": "medium"
+    },
+    "hidden_powershell": {
+      "pattern": "powershell(.exe)?\\s+-[Ww](indow)?[Ss](tyle)?\\s+[Hh]idden",
+      "description": "Hidden PowerShell window execution",
+      "severity": "high"
+    },
+    "bypass_execution_policy": {
+      "pattern": "powershell(.exe)?\\s+-[Ee]x(ecution)?[Pp](olicy)?\\s+[Bb]ypass",
+      "description": "PowerShell execution policy bypass",
+      "severity": "high"
+    },
+    "mimikatz_command": {
+      "pattern": "(sekurlsa::logonpasswords|lsadump::sam|kerberos::golden|privilege::debug)",
+      "description": "Mimikatz credential dumping commands",
+      "severity": "critical"
+    },
+    "credential_dump_lsass": {
+      "pattern": "(procdump|rundll32).*lsass\\.exe",
+      "description": "LSASS memory dump attempt",
+      "severity": "critical"
+    },
+    "registry_payload_storage": {
+      "pattern": "reg\\s+add.*\\\\Run.*\\s+/d.*powershell",
+      "description": "Registry persistence with PowerShell",
+      "severity": "high"
+    },
+    "scheduled_task_malware": {
+      "pattern": "schtasks\\s+/create\\s+.*\\s+/tr\\s+.*\\.(exe|bat|ps1|vbs)",
+      "description": "Scheduled task creation for persistence",
+      "severity": "high"
+    },
+    "wmi_persistence": {
+      "pattern": "wmic.*process\\s+call\\s+create",
+      "description": "WMI process creation (lateral movement/persistence)",
+      "severity": "high"
+    },
+    "vbs_downloader": {
+      "pattern": "(CreateObject\\(\"MSXML2\\.XMLHTTP\"|CreateObject\\(\"WinHttp\\.WinHttpRequest)",
+      "description": "VBScript HTTP download pattern",
+      "severity": "high"
+    },
+    "javascript_obfuscation": {
+      "pattern": "String\\.fromCharCode\\(.*\\).*eval\\(",
+      "description": "JavaScript obfuscation with fromCharCode and eval",
+      "severity": "high"
+    },
+    "php_web_shell": {
+      "pattern": "(eval\\(\\$_(POST|GET|REQUEST)\\[|system\\(\\$_(POST|GET|REQUEST)\\[|exec\\(\\$_(POST|GET|REQUEST)\\[)",
+      "description": "PHP web shell execution pattern",
+      "severity": "critical"
+    },
+    "aspx_web_shell": {
+      "pattern": "(Process\\.Start\\(.*cmd\\.exe|ProcessStartInfo|System\\.Diagnostics\\.Process)",
+      "description": "ASPX web shell command execution",
+      "severity": "critical"
+    },
+    "sql_injection_attempt": {
+      "pattern": "(UNION\\s+SELECT|OR\\s+1=1|'\\s+OR\\s+'1'='1|exec\\s*\\(|execute\\s*\\()",
+      "description": "SQL injection attack pattern",
+      "severity": "high"
+    },
+    "command_injection": {
+      "pattern": "(;\\s*(cat|ls|wget|curl|nc|bash|sh|id|whoami|pwd|chmod|rm|mv|cp)\\s+|\\|\\s*(cat|ls|wget|curl|nc|bash|sh|id|whoami)\\s+|&&\\s*(cat|ls|wget|curl|nc|bash|sh|id|whoami)|`(cat|ls|wget|curl|nc|bash|sh|id|whoami|pwd)[^`]*`|\\$\\((cat|ls|wget|curl|nc|bash|sh|id|whoami|pwd|uname|hostname|ifconfig|netstat)[^)]*\\))",
+      "description": "Command injection with actual shell commands",
+      "severity": "high"
+    },
+    "xss_payload": {
+      "pattern": "(<script[^>]*>.*</script>|javascript:[^\"'\\s]+|onerror\\s*=|onload\\s*=)",
+      "description": "Cross-site scripting (XSS) payload",
+      "severity": "medium"
+    },
+    "reverse_shell_bash": {
+      "pattern": "(bash\\s+-i\\s+>&\\s+/dev/tcp/|nc\\s+-e\\s+/bin/(bash|sh)|/bin/(bash|sh)\\s+-i)",
+      "description": "Bash reverse shell pattern",
+      "severity": "critical"
+    },
+    "reverse_shell_python": {
+      "pattern": "(socket\\.socket\\(.*\\)\\.connect\\(|pty\\.spawn\\(|subprocess\\.call\\(\\[\"/bin/sh\"|os\\.dup2\\()",
+      "description": "Python reverse shell pattern",
+      "severity": "critical"
+    },
+    "reverse_shell_perl": {
+      "pattern": "(use\\s+Socket.*open\\(STDIN|perl\\s+-e\\s+'use\\s+Socket)",
+      "description": "Perl reverse shell pattern",
+      "severity": "critical"
+    },
+    "docker_escape": {
+      "pattern": "(docker\\s+run.*--privileged|nsenter\\s+--target|/var/run/docker\\.sock)",
+      "description": "Docker container escape attempt",
+      "severity": "critical"
+    },
+    "kerberoasting": {
+      "pattern": "(Get-DomainSPNTicket|Invoke-Kerberoast|\\$krb5tgs\\$23\\$)",
+      "description": "Kerberoasting attack indicators",
+      "severity": "critical"
+    },
+    "dcsync_attack": {
+      "pattern": "(lsadump::dcsync|Invoke-Mimikatz.*-Command.*dcsync|Get-NetDomainController)",
+      "description": "DCSync credential theft attack",
+      "severity": "critical"
+    },
+    "bloodhound_enumeration": {
+      "pattern": "(Invoke-BloodHound|SharpHound|bloodhound-python|\\.bloodhound)",
+      "description": "BloodHound Active Directory enumeration",
+      "severity": "high"
+    },
+    "psexec_lateral_movement": {
+      "pattern": "(psexec\\.exe.*\\\\\\\\|Invoke-PsExec|New-PSSession.*-ComputerName)",
+      "description": "PsExec lateral movement",
+      "severity": "high"
+    },
+    "golden_ticket": {
+      "pattern": "(kerberos::golden|/krbtgt:|Invoke-Mimikatz.*golden)",
+      "description": "Kerberos Golden Ticket attack",
+      "severity": "critical"
+    },
+    "zerologon_exploit": {
+      "pattern": "(Netlogon.*RPC|CVE-2020-1472|ZeroLogon)",
+      "description": "ZeroLogon vulnerability exploitation",
+      "severity": "critical"
+    },
+    "eternal_blue_exploit": {
+      "pattern": "(MS17-010|EternalBlue|DoublePulsar|SMBv1.*exploit)",
+      "description": "EternalBlue SMB exploit",
+      "severity": "critical"
+    },
+    "log4shell_exploit": {
+      "pattern": "(\\$\\{jndi:(ldap|rmi|dns)://|Log4Shell|CVE-2021-44228)",
+      "description": "Log4Shell RCE exploitation",
+      "severity": "critical"
+    },
+    "printnightmare_exploit": {
+      "pattern": "(CVE-2021-1675|CVE-2021-34527|PrintNightmare|AddPrinterDriver)",
+      "description": "PrintNightmare vulnerability exploitation",
+      "severity": "critical"
+    },
+    "proxyshell_exploit": {
+      "pattern": "(CVE-2021-34473|CVE-2021-34523|CVE-2021-31207|ProxyShell)",
+      "description": "ProxyShell Exchange exploit",
+      "severity": "critical"
+    },
+    "spring4shell_exploit": {
+      "pattern": "(CVE-2022-22965|Spring4Shell|class\\.module\\.classLoader)",
+      "description": "Spring4Shell RCE exploitation",
+      "severity": "critical"
+    },
+    "ransomware_note": {
+      "pattern": "(your\\s+files\\s+(have\\s+been\\s+)?encrypted|pay.*bitcoin|decrypt(ion)?\\s+key|ransom.*payment)",
+      "description": "Ransomware ransom note indicators",
+      "severity": "critical"
+    },
+    "crypto_wallet": {
+      "pattern": "(bc1|[13])[a-zA-HJ-NP-Z0-9]{25,39}",
+      "description": "Bitcoin wallet address (possible ransom/cryptominer)",
+      "severity": "medium"
+    },
+    "monero_wallet": {
+      "pattern": "4[0-9AB][1-9A-HJ-NP-Za-km-z]{93}",
+      "description": "Monero wallet address (cryptominer indicator)",
+      "severity": "medium"
+    },
+    "discord_webhook": {
+      "pattern": "https://discord(app)?\\.com/api/webhooks/[0-9]{17,19}/[A-Za-z0-9_-]{68}",
+      "description": "Discord webhook (data exfiltration)",
+      "severity": "high"
+    },
+    "telegram_bot": {
+      "pattern": "https://api\\.telegram\\.org/bot[0-9]+:[A-Za-z0-9_-]{35}",
+      "description": "Telegram bot API (C2 communication)",
+      "severity": "high"
+    },
+    "pastebin_exfiltration": {
+      "pattern": "(pastebin\\.com/(raw|api)|hastebin\\.com|dpaste\\.com)",
+      "description": "Pastebin-like service (data exfiltration)",
+      "severity": "medium"
+    },
+    "ngrok_tunnel": {
+      "pattern": "(https?://[a-f0-9]+\\.ngrok\\.io|ngrok\\.exe|ngrok\\s+(http|tcp))",
+      "description": "Ngrok tunneling (C2 communication)",
+      "severity": "high"
+    },
+    "suspicious_user_agent": {
+      "pattern": "(Masscan|Nmap|sqlmap|nikto|Metasploit|Cobalt Strike|Mimikatz)",
+      "description": "Suspicious user-agent string",
+      "severity": "high"
+    },
+    "empire_framework": {
+      "pattern": "(Invoke-Empire|Empire\\s+agent|PowerShell\\s+Empire|/empire/)",
+      "description": "PowerShell Empire framework indicators",
+      "severity": "critical"
+    },
+    "covenant_c2": {
+      "pattern": "(Covenant|GruntHTTP|/covenant/)",
+      "description": "Covenant C2 framework indicators",
+      "severity": "critical"
+    },
+    "sliver_c2": {
+      "pattern": "(sliver(client|server)?|mtls://|wg://[0-9\\.]+)",
+      "description": "Sliver C2 framework indicators",
+      "severity": "critical"
+    },
+    "brute_force_pattern": {
+      "pattern": "(hydra|medusa|ncrack|patator).*(-l\\s+|-L\\s+|-p\\s+|-P\\s+)",
+      "description": "Password brute force tool usage",
+      "severity": "high"
+    },
+    "credential_harvesting": {
+      "pattern": "(LaZagne|mimikittenz|SessionGopher|Invoke-SessionGopher)",
+      "description": "Credential harvesting tool",
+      "severity": "critical"
+    },
+    "pdf_invoice_scam": {
+      "pattern": "(invoice|receipt|payment|statement|bill).*\\.(pdf|PDF)",
+      "description": "PDF invoice/payment scam (common phishing vector)",
+      "severity": "medium"
+    },
+    "fake_apk_game": {
+      "pattern": "(minecraft|roblox|fortnite|pubg|free fire|among us|genshin).*\\.(apk|APK)",
+      "description": "Fake game APK (likely malware)",
+      "severity": "high"
+    },
+    "suspicious_doc_filename": {
+      "pattern": "(invoice|order|payment|shipping|delivery|contract|agreement).*\\.(doc|docx|xls|xlsx).*\\.(exe|scr|zip)",
+      "description": "Office document with suspicious double extension",
+      "severity": "critical"
+    },
+    "fake_resume_cv": {
+      "pattern": "(resume|cv|curriculum).*\\.(exe|scr|bat|vbs|js)",
+      "description": "Fake resume/CV with executable extension",
+      "severity": "high"
+    },
+    "screenshot_scam": {
+      "pattern": "(screenshot|screen|image|photo).*\\.(exe|scr|bat|com|pif)",
+      "description": "Fake screenshot with executable extension",
+      "severity": "high"
+    },
+    "pdf_form_phishing": {
+      "pattern": "(/AcroForm|/XFA).*(/SubmitForm|/JavaScript).*http[s]?://",
+      "description": "PDF form with data submission (phishing)",
+      "severity": "high"
+    },
+    "discord_bot_token": {
+      "pattern": "[MN][A-Za-z0-9]{23,25}\\.[A-Za-z0-9]{6}\\.[A-Za-z0-9_-]{27}",
+      "description": "Discord bot/user token in file",
+      "severity": "critical"
+    },
+    "fake_update_notification": {
+      "pattern": "(update required|critical update|security update|software update).*\\.(exe|msi|bat)",
+      "description": "Fake software update notification",
+      "severity": "high"
+    },
+    "minecraft_mod_malware": {
+      "pattern": "(OptiFine|Forge|Fabric|mod|shader).*\\.(exe|bat|jar\\.exe|zip\\.exe)",
+      "description": "Fake Minecraft mod with executable",
+      "severity": "high"
+    },
+    "game_cheat_pattern": {
+      "pattern": "(aimbot|esp|wallhack|triggerbot|bhop|spinbot|rage|legit).*\\.(exe|dll)",
+      "description": "Game cheat (often contains malware)",
+      "severity": "high"
+    },
+    "cracked_software_pattern": {
+      "pattern": "(crack|keygen|patch|activator|loader|portable).*\\.(exe|bat|cmd)",
+      "description": "Cracked software (high malware risk)",
+      "severity": "high"
+    },
+    "fake_discord_bot": {
+      "pattern": "(discord bot|bot setup|bot token|bot config).*\\.(exe|py\\.exe|bat)",
+      "description": "Fake Discord bot setup (likely token stealer)",
+      "severity": "critical"
+    },
+    "roblox_scam_pattern": {
+      "pattern": "(robux generator|free robux|roblox hack|roblox cheat).*\\.(exe|apk|bat)",
+      "description": "Roblox scam/hack (malware)",
+      "severity": "high"
+    },
+    "steam_trade_scam": {
+      "pattern": "(steamcommunity\\.com/tradeoffer|trade offer|csgo trade|steam trade).*\\?partner=",
+      "description": "Steam trade scam link",
+      "severity": "medium"
+    },
+    "nft_drainer_pattern": {
+      "pattern": "(mint now|claim nft|free mint|connect wallet|metamask|phantom wallet).*\\.(html|js)",
+      "description": "NFT drainer phishing page",
+      "severity": "critical"
+    },
+    "fake_video_file": {
+      "pattern": ".*\\.(mp4|avi|mkv|mov).*\\.(exe|scr|bat|com)",
+      "description": "Fake video file with executable extension",
+      "severity": "critical"
+    },
+    "suspicious_macro_doc": {
+      "pattern": "(enable content|enable editing|enable macros).*\\.(doc|docx|xls|xlsx)",
+      "description": "Document prompting to enable macros",
+      "severity": "high"
+    },
+    "fake_verification_code": {
+      "pattern": "(verification code|2fa code|otp code|backup codes).*\\.(txt|pdf|doc)",
+      "description": "Fake verification/2FA code file",
+      "severity": "medium"
+    },
+    "clipboard_hijacker_indicator": {
+      "pattern": "(ClipboardManager|SetClipboardViewer|AddClipboardFormatListener).*\\.(exe|dll)",
+      "description": "Clipboard hijacker (crypto theft)",
+      "severity": "critical"
+    }
+  },
+  "url_patterns": {
+    "phishing_domain": {
+      "pattern": ".*\\.(tk|ml|ga|cf|gq)$",
+      "description": "Suspicious free TLD commonly used in phishing",
+      "severity": "medium"
+    },
+    "suspicious_tld": {
+      "pattern": ".*\\.(xyz|top|work|click|link|trade|date|stream|loan|download|racing|review)$",
+      "description": "Suspicious TLD often associated with malware",
+      "severity": "low"
+    },
+    "typosquatting_microsoft": {
+      "pattern": ".*(micr0soft|micr0s0ft|micros0ft|microsft|micosoft|microsof|mcrosoft)\\..*",
+      "description": "Microsoft typosquatting domain",
+      "severity": "high"
+    },
+    "typosquatting_google": {
+      "pattern": ".*(g00gle|gogle|googl|g0ogle|goog1e|go0gle)\\..*",
+      "description": "Google typosquatting domain",
+      "severity": "high"
+    },
+    "typosquatting_paypal": {
+      "pattern": ".*(paypa1|paypai|pypal|paypall|paypa|paypla)\\..*",
+      "description": "PayPal typosquatting domain",
+      "severity": "high"
+    },
+    "suspicious_subdomain": {
+      "pattern": "(login|secure|account|verify|update|signin|banking|webscr)\\.[a-z0-9-]+\\.[a-z]{2,}",
+      "description": "Suspicious subdomain mimicking legitimate services",
+      "severity": "medium"
+    },
+    "ip_address_url": {
+      "pattern": "https?://[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}",
+      "description": "Direct IP address URL (suspicious for phishing)",
+      "severity": "low"
+    },
+    "shortened_url": {
+      "pattern": "(bit\\.ly|tinyurl\\.com|goo\\.gl|ow\\.ly|short\\.link|t\\.co|rb\\.gy|is\\.gd)/",
+      "description": "URL shortener (potential phishing)",
+      "severity": "low"
+    },
+    "onion_address": {
+      "pattern": "https?://[a-z2-7]{16,56}\\.onion",
+      "description": "Tor hidden service (.onion domain)",
+      "severity": "medium"
+    },
+    "duckdns_dynamic_dns": {
+      "pattern": ".*\\.duckdns\\.org",
+      "description": "DuckDNS dynamic DNS (commonly used for C2)",
+      "severity": "low"
+    },
+    "no_ip_dynamic_dns": {
+      "pattern": ".*\\.(ddns\\.net|ddnsking\\.com|3utilities\\.com|bounceme\\.net|freedynamicdns\\.net)",
+      "description": "No-IP/dynamic DNS (commonly used for C2)",
+      "severity": "low"
+    },
+    "pastebin_raw": {
+      "pattern": "(pastebin\\.com/raw|hastebin\\.com/raw)",
+      "description": "Pastebin raw content (malware distribution)",
+      "severity": "medium"
+    },
+    "github_raw_content": {
+      "pattern": "https://raw\\.githubusercontent\\.com/",
+      "description": "GitHub raw content (malware distribution)",
+      "severity": "low"
+    },
+    "file_sharing_suspicious": {
+      "pattern": "(anonfiles\\.com|mega\\.nz|mediafire\\.com|file\\.io|transfer\\.sh|gofile\\.io)",
+      "description": "File sharing service (malware distribution)",
+      "severity": "low"
+    },
+    "malware_hosting_cdn": {
+      "pattern": "(cdn\\.discordapp\\.com/attachments|cdn\\.cloudflare\\.steamstatic\\.com)",
+      "description": "CDN commonly abused for malware hosting",
+      "severity": "low"
+    },
+    "fake_nitro_phishing": {
+      "pattern": "(discordnitro|discord-nitro|nitro-gen|nitrogift|free-nitro|nitro-giveaway)\\.(com|net|org|xyz|tk|ml|ga)",
+      "description": "Fake Discord Nitro phishing site",
+      "severity": "high"
+    },
+    "fake_steam_domain": {
+      "pattern": "(steampowered|steam-community|steamcommunty|steamcomunity|steamcornmunity)\\.(com|net|org|ru|tk)",
+      "description": "Fake Steam phishing domain",
+      "severity": "high"
+    },
+    "fake_discord_domain": {
+      "pattern": "(discordapp|discord-app|dlscord|discrd|discard|discοrd)\\.(com|net|org|gift|xyz)",
+      "description": "Fake Discord phishing domain",
+      "severity": "high"
+    },
+    "grabify_tracker": {
+      "pattern": "(grabify\\.link|bmwforum\\.co|leancoding\\.co|stopify\\.co|yoütu\\.be|discörd\\.com|minecräft\\.com|freegiftcards\\.co|screenshare\\.host|fortnight\\.space|fortnitechat\\.site)",
+      "description": "Grabify IP logger/tracker",
+      "severity": "medium"
+    },
+    "scam_game_download": {
+      "pattern": "(free-vbucks|free-robux|minecraft-free|fortnite-hack|valorant-hack|apex-hack|warzone-hack)\\.(com|net|org|xyz|tk|ml)",
+      "description": "Fake game currency/hack scam site",
+      "severity": "high"
+    },
+    "suspicious_discord_oauth": {
+      "pattern": "discord\\.com/oauth2/authorize.*permissions=8",
+      "description": "Discord OAuth requesting administrator permissions",
+      "severity": "high"
+    },
+    "qr_code_phishing": {
+      "pattern": "(qr-code-scanner|scan-qr|steamqr|discordqr|whatsappqr)\\.(com|net|org|xyz)",
+      "description": "QR code phishing site",
+      "severity": "medium"
+    },
+    "fake_giveaway_site": {
+      "pattern": "(nitrogiveaway|steamgiveaway|freegames|giveaway-official|promo-giveaway)\\.(com|net|xyz|tk|ml)",
+      "description": "Fake giveaway/promotion scam",
+      "severity": "high"
+    },
+    "referral_spam": {
+      "pattern": "(csgofast|csgolotto|csgoempire|csgo500|hellcase|csgopolygon).*ref=",
+      "description": "CSGO gambling referral spam",
+      "severity": "low"
+    },
+    "fake_verification_site": {
+      "pattern": "(verify-account|account-verify|discord-verify|steam-verify|security-check)\\.(com|net|org|xyz|tk)",
+      "description": "Fake account verification site",
+      "severity": "high"
+    },
+    "crypto_drainer_domain": {
+      "pattern": "(connect-wallet|verify-wallet|claim-airdrop|nft-claim|web3-verify)\\.(com|net|xyz|app)",
+      "description": "Cryptocurrency wallet drainer site",
+      "severity": "critical"
+    },
+    "fake_login_page": {
+      "pattern": "(login-discord|discord-login|steam-signin|account-recovery)\\.(com|net|org|xyz|tk|ml)",
+      "description": "Fake login page",
+      "severity": "critical"
+    },
+    "sussy_link_shortener": {
+      "pattern": "(cutt\\.ly|bc\\.vc|exe\\.io|linkvertise\\.com|adf\\.ly|ouo\\.io|sh\\.st)",
+      "description": "Link shortener with ads/malware",
+      "severity": "medium"
+    },
+    "fake_mod_download": {
+      "pattern": "(minecraft-mods|mcpe-mods|mod-download|modpack-free|texture-pack)\\.(com|net|xyz|tk)",
+      "description": "Fake game mod download site",
+      "severity": "high"
+    },
+    "phishing_netflix_spotify": {
+      "pattern": "(netflixfree|spotify-premium|free-spotify|netflix-account)\\.(com|net|org|xyz|tk)",
+      "description": "Fake Netflix/Spotify phishing",
+      "severity": "high"
+    },
+    "booter_stresser": {
+      "pattern": "(booter|stresser|ddos-service|ip-stresser|layer7|bootcamp)\\.(com|net|org|xyz)",
+      "description": "DDoS-for-hire service",
+      "severity": "high"
+    },
+    "fake_streaming_site": {
+      "pattern": "(moviestream|freeflix|watchhd|streamfree|megastream)\\.(com|net|xyz|tk|to)",
+      "description": "Fake streaming site (often malware)",
+      "severity": "medium"
+    }
+  },
+  "file_hash_patterns": {
+    "emotet_sample_1": {
+      "hash": "d55f983c994caa160ec63a59f6b4250fe67fb3e8c43a388aec60a4a6978e9c1e",
+      "description": "Known Emotet malware hash",
+      "severity": "critical"
+    },
+    "trickbot_sample_1": {
+      "hash": "0e32e2e4e9e5c19a8f87a28e0d5e6f7c8a9b0c1d2e3f4a5b6c7d8e9f0a1b2c3d",
+      "description": "Known TrickBot malware hash",
+      "severity": "critical"
+    },
+    "cobalt_strike_beacon_1": {
+      "hash": "f4c9a8d6e3b2a1f5e7c8d9a6b4c5e2f3a1b7c9d5e8f2a6b3c4d1e9f7a5b8c2d",
+      "description": "Known Cobalt Strike Beacon hash",
+      "severity": "critical"
+    }
+  },
+  "network_ioc_patterns": {
+    "c2_callback_pattern": {
+      "pattern": "(GET|POST)\\s+/[a-zA-Z0-9]{32,}\\s+HTTP",
+      "description": "Suspicious C2 callback pattern (long random paths)",
+      "severity": "high"
+    },
+    "beacon_checkin": {
+      "pattern": "GET\\s+/[a-zA-Z0-9_-]{6,12}\\.(js|css|gif|png|jpg)\\s+HTTP",
+      "description": "Beacon check-in disguised as web resource",
+      "severity": "medium"
+    },
+    "dns_tunneling": {
+      "pattern": "[a-zA-Z0-9]{50,}\\.[a-z]+",
+      "description": "Potential DNS tunneling (long subdomain)",
+      "severity": "high"
+    },
+    "cobaltstrike_malleable_c2": {
+      "pattern": "(jquery-[0-9\\.]+\\.min\\.js|ga\\.js|analytics\\.js|pixel)",
+      "description": "Cobalt Strike malleable C2 profile indicators",
+      "severity": "high"
+    }
+  },
+  "modern_malware_2024": {
+    "lumma_stealer_c2": {
+      "pattern": "(lumma|lummac2|c2\\.lumma)",
+      "description": "Lumma Stealer C2 communication (2024)",
+      "severity": "critical"
+    },
+    "stealc_panel": {
+      "pattern": "(stealc|st34lc|/panel\\.php)",
+      "description": "Stealc info-stealer panel (2024)",
+      "severity": "critical"
+    },
+    "redline_v2_marker": {
+      "pattern": "(RedLine|RL_MUTEX|GetSystemInfo2)",
+      "description": "RedLine Stealer V2 indicators (2024)",
+      "severity": "critical"
+    },
+    "rhadamanthys_plugin": {
+      "pattern": "(Rhadamanthys|RHADA|LoadPlugin)",
+      "description": "Rhadamanthys modular stealer (2024)",
+      "severity": "critical"
+    },
+    "lockbit_4_ransomware": {
+      "pattern": "(lockbit4|LockBit.*4\\.0|\\.lockbit4)",
+      "description": "LockBit 4.0 ransomware (2024)",
+      "severity": "critical"
+    },
+    "blackcat_alphv_rust": {
+      "pattern": "(ALPHV|BlackCat|sphynx|\\.alphv)",
+      "description": "BlackCat/ALPHV Rust ransomware (2024)",
+      "severity": "critical"
+    },
+    "akira_ransomware": {
+      "pattern": "(Akira_README|\\.akira|akira.*ransom)",
+      "description": "Akira ransomware (2024)",
+      "severity": "critical"
+    },
+    "asyncrat_2024": {
+      "pattern": "(AsyncRAT|Async_RAT|AsyncMutex_)",
+      "description": "AsyncRAT 2024 variant",
+      "severity": "critical"
+    },
+    "quasar_rat_2024": {
+      "pattern": "(Quasar\\.Client|xServer|xClient)",
+      "description": "Quasar RAT 2024",
+      "severity": "critical"
+    },
+    "cobalt_strike_cracked": {
+      "pattern": "(beacon\\.dll|spawnas|shinject|msagent_.*pipe)",
+      "description": "Cobalt Strike cracked beacon (2024)",
+      "severity": "critical"
+    }
+  },
+  "cve_2024_exploits": {
+    "cve_2024_21887_ivanti": {
+      "pattern": "(IvantiConnectSecure|/api/v1/totp/user-backup-code)",
+      "description": "CVE-2024-21887 Ivanti Connect Secure RCE",
+      "severity": "critical"
+    },
+    "cve_2024_3094_xz_backdoor": {
+      "pattern": "(bad-3-corrupt_lzma2\\.xz|RSA_public_decrypt.*ED448)",
+      "description": "CVE-2024-3094 XZ Utils backdoor",
+      "severity": "critical"
+    },
+    "cve_2024_4577_php_rce": {
+      "pattern": "(-d allow_url_include=1|-d auto_prepend_file)",
+      "description": "CVE-2024-4577 PHP-CGI RCE",
+      "severity": "critical"
+    },
+    "cve_2024_1709_connectwise": {
+      "pattern": "(ScreenConnect.*\\.\\.%2f|UploadHandler.*\\.aspx)",
+      "description": "CVE-2024-1709 ConnectWise ScreenConnect RCE",
+      "severity": "critical"
+    },
+    "cve_2024_21762_fortinet": {
+      "pattern": "(/remote/fgt_lang\\?lang=|FortiGate.*path.*traversal)",
+      "description": "CVE-2024-21762 FortiOS path traversal",
+      "severity": "critical"
+    },
+    "cve_2024_23897_jenkins": {
+      "pattern": "(@(/etc/passwd|/etc/shadow)|Jenkins.*file.*read)",
+      "description": "CVE-2024-23897 Jenkins file read",
+      "severity": "critical"
+    }
+  },
+  "crypto_threats_2024": {
+    "web3_drainer_angel": {
+      "pattern": "(AngelDrainer|Inferno.*Drainer|Pink.*Drainer)",
+      "description": "Web3 crypto drainer kits (2024)",
+      "severity": "critical"
+    },
+    "wallet_connect_phishing": {
+      "pattern": "(walletconnect.*modal|connect.*wallet.*approve)",
+      "description": "WalletConnect phishing attack",
+      "severity": "high"
+    },
+    "permit2_exploit": {
+      "pattern": "(permit2|signTypedData.*Permit)",
+      "description": "Uniswap Permit2 exploitation",
+      "severity": "critical"
+    },
+    "seaport_phishing": {
+      "pattern": "(seaport.*fulfillOrder|OpenSea.*malicious)",
+      "description": "OpenSea Seaport phishing",
+      "severity": "high"
+    },
+    "metamask_sniffing": {
+      "pattern": "(window\\.ethereum|ethereum\\.request.*eth_accounts)",
+      "description": "MetaMask address sniffing",
+      "severity": "medium"
+    },
+    "clipper_btc_replacement": {
+      "pattern": "([13][a-km-zA-HJ-NP-Z1-9]{25,34}.*SetClipboardData)",
+      "description": "Bitcoin address clipboard hijack",
+      "severity": "critical"
+    },
+    "xmrig_2024_config": {
+      "pattern": "(RandomX|donate-level.*huge-pages|stratum\\+tcp.*xmr)",
+      "description": "XMRig cryptominer 2024",
+      "severity": "high"
+    }
+  },
+  "supply_chain_2024": {
+    "npm_postinstall_exfil": {
+      "pattern": "(postinstall.*eval|preinstall.*Buffer\\.from.*base64)",
+      "description": "NPM package with malicious install script",
+      "severity": "critical"
+    },
+    "pypi_setup_backdoor": {
+      "pattern": "(setup\\.py.*exec\\(compile|cmdclass.*install)",
+      "description": "PyPI package with backdoor in setup.py",
+      "severity": "critical"
+    },
+    "typosquat_requests": {
+      "pattern": "(reqeusts|requets|python-requests)",
+      "description": "Typosquatting popular packages",
+      "severity": "high"
+    },
+    "dependency_confusion": {
+      "pattern": "(private.*package|internal.*registry.*public)",
+      "description": "Dependency confusion attack indicator",
+      "severity": "high"
+    },
+    "npm_package_hijack": {
+      "pattern": "(_password|NPM_TOKEN|NODE_AUTH_TOKEN).*process\\.env",
+      "description": "NPM token theft attempt",
+      "severity": "critical"
+    },
+    "github_action_pwn": {
+      "pattern": "(\\$\\{\\{.*github\\.event|pull_request_target.*checkout)",
+      "description": "GitHub Actions PWN Request",
+      "severity": "high"
+    }
+  },
+  "ai_llm_abuse_2024": {
+    "chatgpt_jailbreak_dan": {
+      "pattern": "(DAN|Do Anything Now|ignore previous instructions)",
+      "description": "ChatGPT jailbreak attempt",
+      "severity": "medium"
+    },
+    "llm_code_generation_malware": {
+      "pattern": "(api\\.openai\\.com.*create malware|bypass antivirus)",
+      "description": "LLM used for malware generation",
+      "severity": "medium"
+    },
+    "prompt_injection_attack": {
+      "pattern": "(ignore.*system.*prompt|forget.*instructions.*do)",
+      "description": "LLM prompt injection",
+      "severity": "medium"
+    },
+    "elevenlabs_voice_clone": {
+      "pattern": "(ElevenLabs.*voice.*clone|audio synthesis.*urgent|CEO.*transfer)",
+      "description": "Deepfake voice for social engineering",
+      "severity": "high"
+    },
+    "ai_generated_phishing": {
+      "pattern": "(GPT.*generated|ChatGPT.*email|AI.*phishing)",
+      "description": "AI-generated phishing content",
+      "severity": "medium"
+    }
+  },
+  "modern_phishing_2024": {
+    "qr_code_quishing": {
+      "pattern": "(qrcode.*microsoft365|QR.*verify.*account)",
+      "description": "QR code phishing (quishing) 2024 trend",
+      "severity": "high"
+    },
+    "aitm_evilginx": {
+      "pattern": "(evilginx|modlishka|muraena.*phishlet)",
+      "description": "Adversary-in-the-Middle phishing kit",
+      "severity": "critical"
+    },
+    "mfa_fatigue_attack": {
+      "pattern": "(push.*notification.*spam|approve.*repeatedly)",
+      "description": "MFA fatigue attack pattern",
+      "severity": "high"
+    },
+    "teams_phishing_2024": {
+      "pattern": "(Microsoft Teams.*external|Teams.*file.*urgent)",
+      "description": "Microsoft Teams phishing (2024 trend)",
+      "severity": "high"
+    },
+    "oauth_device_code_phish": {
+      "pattern": "(device_code|user_code.*microsoft\\.com/devicelogin)",
+      "description": "OAuth device code phishing",
+      "severity": "high"
+    },
+    "sms_smishing_2024": {
+      "pattern": "(urgent.*verify|account.*suspended.*link|delivery.*failed.*track)",
+      "description": "SMS phishing (smishing) patterns",
+      "severity": "medium"
+    }
+  },
+  "evasion_techniques_2024": {
+    "html_smuggling": {
+      "pattern": "(blob:.*download|atob.*msSaveBlob)",
+      "description": "HTML smuggling technique",
+      "severity": "high"
+    },
+    "iso_img_abuse": {
+      "pattern": "(\\.iso|\\.img).*mount.*autorun",
+      "description": "ISO/IMG file abuse for malware delivery",
+      "severity": "high"
+    },
+    "lnk_download_execute": {
+      "pattern": "\\.lnk.*(powershell|cmd|mshta).*http",
+      "description": "LNK file downloads and executes payload",
+      "severity": "high"
+    },
+    "vhdx_malware_container": {
+      "pattern": "(\\.vhdx|\\.vhd).*Mount-DiskImage",
+      "description": "VHDX virtual disk malware container",
+      "severity": "high"
+    },
+    "signed_binary_proxy": {
+      "pattern": "(mavinject|dllhost|odbcconf).*\\.dll.*unsigned",
+      "description": "Signed binary proxy execution",
+      "severity": "high"
+    },
+    "process_doppelganging": {
+      "pattern": "(NtCreateTransaction|RollbackTransaction|PROCESS_ALL_ACCESS)",
+      "description": "Process doppelgänging technique",
+      "severity": "high"
+    }
+  },
+  "discord_specific_2024": {
+    "discord_nitro_scam_2024": {
+      "pattern": "(free.*nitro|nitro.*gift|discord.*nitro.*claim)",
+      "description": "Discord Nitro scam (2024 variants)",
+      "severity": "high"
+    },
+    "discord_token_logger": {
+      "pattern": "(discord.*token|Local Storage.*leveldb.*discord)",
+      "description": "Discord token stealing",
+      "severity": "critical"
+    },
+    "discord_webhook_exfil": {
+      "pattern": "discord\\.com/api/webhooks/[0-9]+/[A-Za-z0-9_-]+",
+      "description": "Discord webhook for data exfiltration",
+      "severity": "high"
+    },
+    "discord_rce_embed": {
+      "pattern": "(discord.*embed.*onerror|<script.*discord)",
+      "description": "Discord embed XSS/RCE attempt",
+      "severity": "high"
+    },
+    "discord_selfbot_raid": {
+      "pattern": "(discord.*selfbot|raid.*tool|mass.*dm)",
+      "description": "Discord selfbot/raid tool",
+      "severity": "medium"
+    }
+  },
+  "gaming_threats_2024": {
+    "valorant_cheat_rat": {
+      "pattern": "(valorant.*(aimbot|hack)|vanguard.*bypass).*socket",
+      "description": "Valorant cheat with RAT",
+      "severity": "high"
+    },
+    "fortnite_vbucks_scam": {
+      "pattern": "(free.*v-?bucks|fortnite.*generator|epic.*account)",
+      "description": "Fortnite V-Bucks scam",
+      "severity": "high"
+    },
+    "minecraft_mod_malware": {
+      "pattern": "(OptiFine|Forge).*\\.exe|minecraft.*mod.*keylog",
+      "description": "Minecraft mod containing malware",
+      "severity": "high"
+    },
+    "roblox_cookie_stealer": {
+      "pattern": "(\\.ROBLOSECURITY|roblox.*cookie|rbxcookie)",
+      "description": "Roblox session cookie theft",
+      "severity": "critical"
+    },
+    "steam_api_key_theft": {
+      "pattern": "(Steam.*API.*Key|steamwebapi|steam_api\\.dll)",
+      "description": "Steam API key/credential theft",
+      "severity": "high"
+    },
+    "csgo_skin_scam": {
+      "pattern": "(cs:?go|csgo).*(trade|skin|knife).*login",
+      "description": "CS:GO skin scam site",
+      "severity": "medium"
+    }
+  },
+  "process_behavior_patterns": {
+    "suspicious_parent_child": {
+      "pattern": "(winword|excel|powerpnt)\\.exe.*(cmd|powershell|wscript|cscript)\\.exe",
+      "description": "Office application spawning suspicious process",
+      "severity": "high"
+    },
+    "lolbas_abuse": {
+      "pattern": "(regsvr32|rundll32|mshta|certutil|bitsadmin)\\.exe",
+      "description": "Living-off-the-land binary abuse (LOLBas)",
+      "severity": "medium"
+    },
+    "wmi_abuse": {
+      "pattern": "wmic\\.exe.*(process|/node:)",
+      "description": "WMIC abuse for execution/lateral movement",
+      "severity": "high"
+    },
+    "powershell_download_cradle": {
+      "pattern": "(IEX|Invoke-Expression).*(New-Object.*Net\\.WebClient|DownloadString)",
+      "description": "PowerShell download cradle",
+      "severity": "critical"
+    },
+    "scheduled_task_persistence": {
+      "pattern": "schtasks.*/create.*/tr.*(powershell|cmd|wscript)",
+      "description": "Scheduled task for persistence",
+      "severity": "high"
+    },
+    "registry_run_key_persistence": {
+      "pattern": "reg add.*(Run|RunOnce|RunServices)",
+      "description": "Registry Run key persistence",
+      "severity": "high"
+    },
+    "service_installation": {
+      "pattern": "sc create.*binPath.*\\.exe",
+      "description": "Suspicious service installation",
+      "severity": "high"
+    },
+    "vssadmin_shadow_delete": {
+      "pattern": "vssadmin.*delete.*shadows",
+      "description": "Shadow copy deletion (ransomware indicator)",
+      "severity": "critical"
+    }
+  }
+}

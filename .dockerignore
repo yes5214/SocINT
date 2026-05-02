@@ -1,0 +1,84 @@
+# Docker build context exclusions
+# Exclude files/directories that don't need to be in the Docker image
+
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs (will be mounted as volume)
+logs/
+*.log
+
+# Quarantine (will be mounted as volume)
+quarantine_storage/
+quarantine.db
+quarantine.db-journal
+
+# Testing output
+test_results/
+*_test_results.json
+malware_samples/testing/generated_test_results.json
+malware_samples/testing/real_test_results.json
+malware_samples/testing/real_url_results.json
+
+# Backups
+*.backup
+*.bak
+*.backup_*
+rules.yar.backup*
+rules.yar.broken
+
+# Documentation (not needed in runtime)
+*.md
+!README.md
+docs/
+
+# Scripts not needed in runtime
+build_yara_rules.sh
+fix_all_yara.py
+generate_test_samples.py
+generate_url_samples.py
+test_generated_samples.py
+
+# Temporary files
+tmp/
+*.tmp
+*.temp
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker files themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
