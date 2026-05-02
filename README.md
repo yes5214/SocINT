@@ -1,4 +1,4 @@
-# SocInt
+# SocINT
 
 A Discord bot that scans messages, attachments, and URLs in real time for malware, phishing, and other threats. Combines YARA rules, custom signatures, VirusTotal, Google Safe Browsing, URLhaus, and Hybrid Analysis. Includes encrypted quarantine of detected files.
 
